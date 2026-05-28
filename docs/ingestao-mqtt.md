@@ -105,8 +105,11 @@ Dois mecanismos (como no Open.Drive, porém corrigidos):
 | Dois `IMqttClient` (singleton + interno) → **bug** | **Um único** `IMqttClient` |
 | `ConnectAsync()`/`SubscribeAsync()` sem `await` → **bug** | Sempre `await` |
 
+## Status confirmado
+
+H1 / tag 99 é **binário**: `0` = desligada, `1` = ligada (fazendo café). Detalhes e ressalva (limpeza) em [dados-mqtt.md](dados-mqtt.md).
+
 ## Pendências para fechar a implementação
 
 - **Credenciais reais do broker** (usuário, senha, porta) — confirmar se exige autenticação e se é 1883 (TCP) ou TLS (8883).
-- **Mapa dos códigos de status** (tag 99 / H1): só vimos `0`. Falta saber o que cada valor representa (ex.: 0 = parado, 1 = rodando) para definir a regra de acionamento `desligado → ligado`.
-- Confirmar se o `DADOSAPONTAMENTO` é publicado a cada mudança de status (define se contamos transições a partir dele).
+- **Tópico canônico:** definir qual usar para persistir transições. Recomendado um que traga o timestamp do evento — `H1DATAHORA` (`valor|epoch`) ou `DADOSAPONTAMENTO` (timestamp ISO). Atenção à **barra inicial** do tópico (`/IoT/SAACE/...`).

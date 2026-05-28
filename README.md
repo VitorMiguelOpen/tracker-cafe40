@@ -71,6 +71,7 @@ npm start
 
 ## Documentação
 
+- [Histórias de usuário (backlog US-01 a US-07)](docs/historias.md)
 - [Escopo do projeto](docs/escopo.md)
 - [Ata de kickoff com o cliente](docs/ata-kickoff.md)
 - [Arquitetura](docs/arquitetura.md)

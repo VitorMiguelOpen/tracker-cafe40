@@ -76,6 +76,7 @@ npm start
 - [Arquitetura](docs/arquitetura.md)
 - [MQTT — conceitos e conexão](docs/mqtt.md)
 - [Dados do sensor via MQTT (estrutura real)](docs/dados-mqtt.md)
+- [Plano de ingestão MQTT (backend)](docs/ingestao-mqtt.md)
 
 ## Equipe
 

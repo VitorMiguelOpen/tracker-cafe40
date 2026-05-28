@@ -75,6 +75,7 @@ npm start
 - [Ata de kickoff com o cliente](docs/ata-kickoff.md)
 - [Arquitetura](docs/arquitetura.md)
 - [MQTT — conceitos e conexão](docs/mqtt.md)
+- [Dados do sensor via MQTT (estrutura real)](docs/dados-mqtt.md)
 
 ## Equipe
 

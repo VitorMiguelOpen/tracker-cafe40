@@ -107,7 +107,7 @@ Dois mecanismos (como no Open.Drive, porém corrigidos):
 
 ## Status confirmado
 
-H1 / tag 99 é **binário**: `0` = desligada, `1` = ligada (fazendo café). Detalhes e ressalva (limpeza) em [dados-mqtt.md](dados-mqtt.md).
+H1 / tag 99 é **binário**: `0` = desligada, `1` = ligada (fazendo café). Detalhes em [dados-mqtt.md](dados-mqtt.md).
 
 ## Pendências para fechar a implementação
 

@@ -77,7 +77,6 @@ O status é **binário**:
 
 - `H1`, `DADOSPLUS` (`99|X`) e `DADOSAPONTAMENTO` carregam o mesmo valor; o `X` do `DADOSPLUS` só assume `0` ou `1`.
 - **Acionamento (US-07):** cada transição `0 → 1` conta como 1 acionamento.
-- **Ressalva conhecida:** o `1` pode aparecer também durante a **limpeza/água** (não confirmado). Certeza de 100% apenas que `1` = ligada fazendo café. Se a contagem de acionamentos ficar "inflada" por ciclos de limpeza, avaliar um filtro depois.
 
 > **Atenção ao tópico:** o MQTT Explorer mostra o tópico de publish como `/IoT/SAACE/H1` (com **barra inicial**). A barra inicial faz parte do nome do tópico no MQTT — confirmar e usar exatamente igual no subscribe.
 
@@ -95,6 +94,5 @@ O status é **binário**:
 
 - **Credenciais do broker:** usuário/senha e porta (1883 TCP ou 8883 TLS).
 - **Tópico canônico para persistir transições:** confirmar qual publica em toda mudança — `H1`, `DADOSPLUS`, `H1DATAHORA` (traz `valor|epoch`) ou `DADOSAPONTAMENTO` (traz timestamp ISO). Recomendado usar o que traz o timestamp do evento.
-- **Limpeza vs. café:** confirmar se há como distinguir o `1` de funcionamento do `1` de limpeza/água.
 
 > **Resolvido:** mapa de status (H1: 0=desligado, 1=ligado) e escopo (somente máquina **SAACE**).

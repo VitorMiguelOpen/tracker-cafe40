@@ -107,7 +107,7 @@ Dois mecanismos (como no Open.Drive, porém corrigidos):
 
 ## Status confirmado
 
-H1 / tag 99 é **binário**: `0` = desligada, `1` = ligada (fazendo café). Detalhes em [dados-mqtt.md](dados-mqtt.md).
+H1 / tag 99: `1` = **fazendo café** (confirmado), `0` = parada/não fazendo café (máquina ainda ligada). Estado totalmente desligado ainda não observado. Detalhes em [dados-mqtt.md](dados-mqtt.md).
 
 ## Fonte canônica de eventos (CONFIRMADO)
 

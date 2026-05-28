@@ -68,13 +68,14 @@ valor|epochSegundos → 0|1779983025
 
 ## Status da máquina — H1 / tag 99 (CONFIRMADO)
 
-O status é **binário**:
+O valor de H1 é `0` ou `1`. **Todos os dados coletados até agora são com a máquina energizada/conectada:**
 
 | Valor | Significado |
 | ----- | ----------- |
-| `0`   | Desligada / parada |
-| `1`   | **Ligada, funcionando (fazendo café)** |
+| `1`   | **Fazendo café** (ciclo ativo) — confirmado |
+| `0`   | Parada / não está fazendo café (mas ligada/conectada) |
 
+- **Pendente:** o estado **totalmente desligado/desconectado** ainda não foi observado. Não se sabe se a máquina para de publicar ou envia outro valor — dados a coletar.
 - `H1`, `DADOSPLUS` (`99|X`) e `DADOSAPONTAMENTO` carregam o mesmo valor; o `X` do `DADOSPLUS` só assume `0` ou `1`.
 - **Fonte canônica para persistir:** `DADOSAPONTAMENTO` — traz `timestamp ISO + tag + valor` em uma mensagem e publica a cada evento (confirmado via History).
 - **O valor se repete:** o `DADOSAPONTAMENTO` publica de tempos em tempos, não só na mudança (visto `99|1` em mensagens consecutivas). Portanto, **contar acionamento exige detectar transição**: comparar com o valor anterior e contar 1 acionamento somente quando vai de `0 → 1` (US-07).
@@ -95,4 +96,6 @@ O status é **binário**:
 
 - **Credenciais do broker:** usuário/senha e porta (1883 TCP ou 8883 TLS).
 
-> **Resolvido:** mapa de status (H1: 0=desligado, 1=ligado), escopo (somente máquina **SAACE**) e fonte canônica de eventos (**DADOSAPONTAMENTO**, com detecção de transição para acionamentos).
+- **Estado "totalmente desligado":** coletar dados da máquina desconectada para saber o que ela publica (ou se para de publicar).
+
+> **Resolvido:** `1` = fazendo café (confirmado), escopo (somente máquina **SAACE**) e fonte canônica de eventos (**DADOSAPONTAMENTO**, com detecção de transição para acionamentos).

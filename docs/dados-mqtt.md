@@ -76,7 +76,8 @@ O status é **binário**:
 | `1`   | **Ligada, funcionando (fazendo café)** |
 
 - `H1`, `DADOSPLUS` (`99|X`) e `DADOSAPONTAMENTO` carregam o mesmo valor; o `X` do `DADOSPLUS` só assume `0` ou `1`.
-- **Acionamento (US-07):** cada transição `0 → 1` conta como 1 acionamento.
+- **Fonte canônica para persistir:** `DADOSAPONTAMENTO` — traz `timestamp ISO + tag + valor` em uma mensagem e publica a cada evento (confirmado via History).
+- **O valor se repete:** o `DADOSAPONTAMENTO` publica de tempos em tempos, não só na mudança (visto `99|1` em mensagens consecutivas). Portanto, **contar acionamento exige detectar transição**: comparar com o valor anterior e contar 1 acionamento somente quando vai de `0 → 1` (US-07).
 
 > **Atenção ao tópico:** o MQTT Explorer mostra o tópico de publish como `/IoT/SAACE/H1` (com **barra inicial**). A barra inicial faz parte do nome do tópico no MQTT — confirmar e usar exatamente igual no subscribe.
 
@@ -93,6 +94,5 @@ O status é **binário**:
 ## Pontos em aberto
 
 - **Credenciais do broker:** usuário/senha e porta (1883 TCP ou 8883 TLS).
-- **Tópico canônico para persistir transições:** confirmar qual publica em toda mudança — `H1`, `DADOSPLUS`, `H1DATAHORA` (traz `valor|epoch`) ou `DADOSAPONTAMENTO` (traz timestamp ISO). Recomendado usar o que traz o timestamp do evento.
 
-> **Resolvido:** mapa de status (H1: 0=desligado, 1=ligado) e escopo (somente máquina **SAACE**).
+> **Resolvido:** mapa de status (H1: 0=desligado, 1=ligado), escopo (somente máquina **SAACE**) e fonte canônica de eventos (**DADOSAPONTAMENTO**, com detecção de transição para acionamentos).

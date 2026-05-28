@@ -109,7 +109,11 @@ Dois mecanismos (como no Open.Drive, porém corrigidos):
 
 H1 / tag 99 é **binário**: `0` = desligada, `1` = ligada (fazendo café). Detalhes em [dados-mqtt.md](dados-mqtt.md).
 
+## Fonte canônica de eventos (CONFIRMADO)
+
+`DADOSAPONTAMENTO` (`/IoT/SAACE/DADOSAPONTAMENTO`) — publica a cada evento com `timestamp ISO + tag + valor`. **O valor se repete** (publica periodicamente, não só na mudança), então o serviço deve guardar o **último valor** e contar acionamento só na transição `0 → 1` (US-07).
+
 ## Pendências para fechar a implementação
 
 - **Credenciais reais do broker** (usuário, senha, porta) — confirmar se exige autenticação e se é 1883 (TCP) ou TLS (8883).
-- **Tópico canônico:** definir qual usar para persistir transições. Recomendado um que traga o timestamp do evento — `H1DATAHORA` (`valor|epoch`) ou `DADOSAPONTAMENTO` (timestamp ISO). Atenção à **barra inicial** do tópico (`/IoT/SAACE/...`).
+- Atenção à **barra inicial** do tópico (`/IoT/SAACE/...`) no subscribe.

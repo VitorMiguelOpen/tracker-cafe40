@@ -1,0 +1,49 @@
+# ---------- .NET ----------
+bin/
+obj/
+out/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vs/
+[Dd]ebug/
+[Rr]elease/
+[Bb]uild/
+artifacts/
+project.lock.json
+*.nupkg
+*.snupkg
+TestResults/
+[Tt]est[Rr]esult*/
+coverage*.json
+coverage*.xml
+*.coverage
+
+# ---------- Node / SAP UI5 ----------
+node_modules/
+dist/
+.tmp/
+.ui5/
+uimodule/dist/
+npm-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ---------- Ambiente / segredos ----------
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+secrets.json
+*.pfx
+
+# ---------- IDE / SO ----------
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# ---------- Logs ----------
+*.log
+logs/

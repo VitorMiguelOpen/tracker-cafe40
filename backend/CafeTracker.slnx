@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CafeTracker.Api/CafeTracker.Api.csproj" />
+    <Project Path="src/CafeTracker.Application/CafeTracker.Application.csproj" />
+    <Project Path="src/CafeTracker.Domain/CafeTracker.Domain.csproj" />
+    <Project Path="src/CafeTracker.Infrastructure/CafeTracker.Infrastructure.csproj" />
+  </Folder>
+</Solution>

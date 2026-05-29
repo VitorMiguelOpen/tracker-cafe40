@@ -1,0 +1,6 @@
+@CafeTracker.Api_HostAddress = http://localhost:5185
+
+GET {{CafeTracker.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

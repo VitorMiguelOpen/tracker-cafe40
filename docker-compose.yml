@@ -1,0 +1,29 @@
+# Banco de dados local para desenvolvimento do Café Tracker.
+# Sobe um PostgreSQL com as MESMAS credenciais do appsettings.json (perfil dev):
+#   Host=localhost;Port=5432;Database=cafetracker;Username=postgres;Password=postgres
+#
+# Uso:
+#   docker compose up -d        # sobe o banco em segundo plano
+#   docker compose down         # para o banco (mantém os dados no volume)
+#   docker compose down -v      # para e APAGA os dados
+services:
+  postgres:
+    image: postgres:16
+    container_name: cafetracker-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: cafetracker
+    ports:
+      - "5432:5432"
+    volumes:
+      - cafetracker-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d cafetracker"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  cafetracker-pgdata:

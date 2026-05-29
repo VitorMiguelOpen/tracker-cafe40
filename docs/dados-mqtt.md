@@ -15,6 +15,7 @@ IoT/
 ├── FABRICANTES        # mapa código → fabricante (ex.: Genesis, ISCAR, Mazak, RDM)
 ├── LINHAS             # mapa código → linha/máquina (ex.: "Máquina 4", "Tornos")
 ├── MODELOS            # mapa código → modelo (ex.: "INTEGREX i-300 (MTConnect)")
+├── TABREFERENCIA      # JSON: dicionário de tags — GLOBAL, compartilhado por todas as máquinas
 ├── SAACE/             # uma máquina (código). SAACE = "IOT TRAINING ROOM"
 │   ├── INFO           # IOT TRAINING ROOM;<id>;Padrão;<id>
 │   ├── DADOS/         # subtópicos com valores de tags
@@ -27,10 +28,11 @@ IoT/
 │   ├── H1DATAHORA     # valor|epochSegundos (ex.: 0|1779983025)
 │   ├── DADOSAPONTAMENTO  # evento completo (ver abaixo)
 │   ├── SEGUNDOS       # ex.: 50333
-│   ├── SET            # ex.: CONPING|53115007
-│   └── TABREFERENCIA  # JSON: dicionário de todas as tags
+│   └── SET            # ex.: CONPING|53115007
 ├── SAABK/  SAABT/  SAABU/  ...   # outras máquinas, mesma estrutura
 ```
+
+> **`TABREFERENCIA` é global** (`/IoT/TABREFERENCIA`), não fica dentro de cada máquina. Para o escopo must have **não é necessário**: o `DADOSAPONTAMENTO` já traz o nome e a descrição da tag embutidos. Só seria útil para resolver o significado de *outras* tags.
 
 ## Formatos de payload
 

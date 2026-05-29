@@ -56,7 +56,7 @@ Plataforma simples, visual e confiável para monitorar o uso do equipamento, per
 
 **4.2 Tendência** — média diária de uso e tendência operacional (crescimento / estabilidade / redução), com base no histórico.
 
-**4.3 Total de acionamentos do dia** — em tempo real. Cada transição válida `desligado → ligado` conta como um acionamento.
+**4.3 Total de acionamentos do dia** — em tempo real. Cada transição válida `desligado → ligado` conta como um acionamento. *Métrica derivada do consumo por hora (não é história separada no documento oficial); ver [historias.md](historias.md), US-03.*
 
 ## Escopo técnico
 

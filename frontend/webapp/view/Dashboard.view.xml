@@ -1,0 +1,165 @@
+<mvc:View
+    controllerName="cafetracker.controller.Dashboard"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:vizData="sap.viz.ui5.data"
+    xmlns:vizFeeds="sap.viz.ui5.controls.common.feeds"
+    displayBlock="true"
+    height="100%">
+
+    <Page id="page" showHeader="true" title="{i18n>headerTitle}">
+        <headerContent>
+            <ObjectStatus
+                text="{path: '/connected', formatter: '.formatter.connectionText'}"
+                state="{path: '/connected', formatter: '.formatter.connectionState'}"
+                icon="sap-icon://connected"/>
+        </headerContent>
+
+        <content>
+            <VBox class="sapUiContentPadding">
+
+                <!-- ================= KPIs / indicadores ================= -->
+                <FlexBox wrap="Wrap" alignItems="Stretch">
+
+                    <!-- US-02: status atual em tempo real -->
+                    <Panel headerText="{i18n>statusCardTitle}" class="cardGap" width="18rem">
+                        <VBox alignItems="Center" justifyContent="Center" class="sapUiSmallMargin">
+                            <core:Icon
+                                src="{path: '/status/value', formatter: '.formatter.statusIcon'}"
+                                size="2.5rem"
+                                color="{= ${/status/value} === 1 ? 'Positive' : 'Negative' }"/>
+                            <ObjectStatus
+                                class="statusBig sapUiSmallMarginTop"
+                                text="{/status/label}"
+                                state="{path: '/status/value', formatter: '.formatter.statusState'}"/>
+                            <Text class="kpiCaption sapUiSmallMarginTop"
+                                text="{i18n>lastEventLabel}: {/status/eventTimeLabel}"/>
+                        </VBox>
+                    </Panel>
+
+                    <!-- Métrica derivada: acionamentos de hoje -->
+                    <Panel headerText="{i18n>activationsCardTitle}" class="cardGap" width="14rem">
+                        <VBox alignItems="Center" justifyContent="Center" class="sapUiMediumMarginTopBottom">
+                            <Text class="kpiValue" text="{/activationsToday}"/>
+                        </VBox>
+                    </Panel>
+
+                    <!-- US-05: horário de pico -->
+                    <Panel headerText="{i18n>peakCardTitle}" class="cardGap" width="14rem">
+                        <VBox alignItems="Center" justifyContent="Center" class="sapUiSmallMarginTopBottom">
+                            <Text class="kpiValue"
+                                text="{path: '/peak/hour', formatter: '.formatter.hourLabel'}"/>
+                            <Text class="kpiCaption sapUiTinyMarginTop"
+                                text="{path: '/peak/totalSeconds', formatter: '.formatter.durationLabel'}"/>
+                        </VBox>
+                    </Panel>
+
+                    <!-- US-06: tendência + média diária -->
+                    <Panel headerText="{i18n>trendCardTitle}" class="cardGap" width="16rem">
+                        <VBox alignItems="Center" justifyContent="Center" class="sapUiSmallMarginTopBottom">
+                            <ObjectStatus
+                                class="kpiValue"
+                                text="{/trend/trend}"
+                                state="{path: '/trend/trend', formatter: '.formatter.trendState'}"
+                                icon="{path: '/trend/trend', formatter: '.formatter.trendIcon'}"/>
+                            <Text class="kpiCaption sapUiTinyMarginTop"
+                                text="{i18n>averageLabel}: {/trend/averageLabel}"/>
+                        </VBox>
+                    </Panel>
+
+                </FlexBox>
+
+                <!-- ================= US-03: consumo por hora ================= -->
+                <Panel headerText="{i18n>hourlyCardTitle}" class="cardGap sapUiSmallMarginTop">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="{i18n>hourlyCardTitle}"/>
+                            <ToolbarSpacer/>
+                            <Button icon="sap-icon://navigation-left-arrow"
+                                tooltip="{i18n>prevDay}" press=".onPrevDay"/>
+                            <DatePicker
+                                value="{/selectedDate}"
+                                valueFormat="yyyy-MM-dd"
+                                displayFormat="dd/MM/yyyy"
+                                change=".onDateChange"
+                                width="10rem"/>
+                            <Button icon="sap-icon://navigation-right-arrow"
+                                tooltip="{i18n>nextDay}" press=".onNextDay"/>
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <viz:VizFrame id="hourlyChart" vizType="column" height="320px" width="100%"
+                        uiConfig="{applicationSet:'fiori'}">
+                        <viz:dataset>
+                            <vizData:FlattenedDataset data="{/hourly}">
+                                <vizData:dimensions>
+                                    <vizData:DimensionDefinition name="{i18n>axisHour}" value="{hourLabel}"/>
+                                </vizData:dimensions>
+                                <vizData:measures>
+                                    <vizData:MeasureDefinition name="{i18n>axisActivations}" value="{activations}"/>
+                                </vizData:measures>
+                            </vizData:FlattenedDataset>
+                        </viz:dataset>
+                        <viz:feeds>
+                            <vizFeeds:FeedItem uid="valueAxis" type="Measure" values="{i18n>axisActivations}"/>
+                            <vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="{i18n>axisHour}"/>
+                        </viz:feeds>
+                    </viz:VizFrame>
+                </Panel>
+
+                <!-- ================= US-04: consumo diário / semanal ================= -->
+                <Panel headerText="{i18n>consumptionCardTitle}" class="cardGap sapUiSmallMarginTop">
+                    <headerToolbar>
+                        <OverflowToolbar>
+                            <Title text="{i18n>consumptionCardTitle}"/>
+                            <ToolbarSpacer/>
+                            <SegmentedButton selectedKey="{/view}" selectionChange=".onViewChange">
+                                <items>
+                                    <SegmentedButtonItem key="Diario" text="{i18n>viewDaily}"/>
+                                    <SegmentedButtonItem key="Semanal" text="{i18n>viewWeekly}"/>
+                                </items>
+                            </SegmentedButton>
+                        </OverflowToolbar>
+                    </headerToolbar>
+
+                    <!-- Visão diária -->
+                    <FlexBox visible="{= ${/view} === 'Diario' }" wrap="Wrap" class="sapUiSmallMargin">
+                        <VBox class="cardGap" width="14rem" alignItems="Center">
+                            <Text class="kpiCaption" text="{i18n>activationsCardTitle}"/>
+                            <Text class="kpiValue" text="{/daily/activations}"/>
+                        </VBox>
+                        <VBox class="cardGap" width="14rem" alignItems="Center">
+                            <Text class="kpiCaption" text="{i18n>axisMinutes}"/>
+                            <Text class="kpiValue"
+                                text="{path: '/daily/totalSeconds', formatter: '.formatter.durationLabel'}"/>
+                        </VBox>
+                    </FlexBox>
+
+                    <!-- Visão semanal -->
+                    <viz:VizFrame id="weeklyChart" vizType="column" height="320px" width="100%"
+                        visible="{= ${/view} === 'Semanal' }"
+                        uiConfig="{applicationSet:'fiori'}">
+                        <viz:dataset>
+                            <vizData:FlattenedDataset data="{/weekly}">
+                                <vizData:dimensions>
+                                    <vizData:DimensionDefinition name="{i18n>axisDay}" value="{dayLabel}"/>
+                                </vizData:dimensions>
+                                <vizData:measures>
+                                    <vizData:MeasureDefinition name="{i18n>axisMinutes}" value="{minutes}"/>
+                                </vizData:measures>
+                            </vizData:FlattenedDataset>
+                        </viz:dataset>
+                        <viz:feeds>
+                            <vizFeeds:FeedItem uid="valueAxis" type="Measure" values="{i18n>axisMinutes}"/>
+                            <vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="{i18n>axisDay}"/>
+                        </viz:feeds>
+                    </viz:VizFrame>
+                </Panel>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

@@ -1,0 +1,6 @@
+# Dependências e artefatos de build do frontend
+node_modules/
+dist/
+.ui5/
+npm-debug.log*
+yarn-error.log*

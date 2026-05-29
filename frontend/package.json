@@ -1,0 +1,13 @@
+{
+  "name": "cafetracker-frontend",
+  "version": "1.0.0",
+  "description": "Dashboard SAP UI5 do Café Tracker (consome a API .NET + tempo real via SignalR)",
+  "private": true,
+  "scripts": {
+    "start": "ui5 serve --open index.html",
+    "build": "ui5 build --clean-dest"
+  },
+  "devDependencies": {
+    "@ui5/cli": "^3.11.0"
+  }
+}

@@ -1,0 +1,23 @@
+/* Ajustes visuais do Café Tracker */
+
+.statusBig {
+    font-size: 2.25rem;
+    font-weight: bold;
+    line-height: 2.5rem;
+}
+
+.kpiValue {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: 2.25rem;
+}
+
+.kpiCaption {
+    color: var(--sapContent_LabelColor, #6a6d70);
+    font-size: 0.875rem;
+}
+
+/* Pequeno respiro entre os cartões */
+.cardGap {
+    margin: 0.5rem;
+}

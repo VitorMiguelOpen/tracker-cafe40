@@ -1,6 +1,8 @@
 using CafeTracker.Application.Abstractions;
+using CafeTracker.Application.Queries;
 using CafeTracker.Infrastructure.Messaging;
 using CafeTracker.Infrastructure.Persistence;
+using CafeTracker.Infrastructure.Persistence.Queries;
 using CafeTracker.Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,6 +28,11 @@ public static class DependencyInjection
         services.AddScoped<IStatusEventRepository, StatusEventRepository>();
         services.AddScoped<ICoffeeSessionRepository, CoffeeSessionRepository>();
         services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<CafeTrackerDbContext>());
+
+        // 2b) Consultas de leitura (lado de query) usadas pela Api/dashboard.
+        services.Configure<AppQuerySettings>(configuration.GetSection(AppQuerySettings.SectionName));
+        services.AddScoped<IStatusQueries, StatusQueries>();
+        services.AddScoped<IConsumptionQueries, ConsumptionQueries>();
 
         // 3) Configuração tipada do MQTT (lê a seção "Mqtt").
         services.Configure<MqttSettings>(configuration.GetSection(MqttSettings.SectionName));

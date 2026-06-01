@@ -1,6 +1,7 @@
 using CafeTracker.Application.Abstractions;
 using CafeTracker.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CafeTracker.Infrastructure.Persistence;
 
@@ -26,5 +27,21 @@ public sealed class CafeTrackerDbContext : DbContext, IUnitOfWork
         base.OnModelCreating(modelBuilder);
         // Aplica todas as classes *Configuration deste assembly automaticamente.
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(CafeTrackerDbContext).Assembly);
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
+
+        // O provider SQLite (usado em desenvolvimento) não traduz ORDER BY sobre
+        // DateTimeOffset. Convertemos esses valores para um formato binário ordenável
+        // (preservando o instante), o que permite ordenar no banco. No PostgreSQL
+        // (produção) usamos o tipo nativo timestamptz, sem conversão.
+        if (Database.IsSqlite())
+        {
+            configurationBuilder
+                .Properties<DateTimeOffset>()
+                .HaveConversion<DateTimeOffsetToBinaryConverter>();
+        }
     }
 }

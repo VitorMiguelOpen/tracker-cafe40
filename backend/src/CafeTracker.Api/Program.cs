@@ -47,11 +47,17 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// 7) Aplica migrações pendentes no startup → cria/atualiza o schema do banco.
+// 7) Garante o schema do banco no startup.
+//    - PostgreSQL (produção): aplica as migrações versionadas.
+//    - SQLite (dev): cria o schema a partir do modelo (sem migrações, que são
+//      específicas do Npgsql), permitindo rodar sem Docker/Postgres.
 await using (var scope = app.Services.CreateAsyncScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<CafeTrackerDbContext>();
-    await db.Database.MigrateAsync();
+    if (db.Database.IsNpgsql())
+        await db.Database.MigrateAsync();
+    else
+        await db.Database.EnsureCreatedAsync();
 }
 
 // 8) Pipeline HTTP.

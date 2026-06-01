@@ -17,12 +17,26 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        // 1) Banco: EF Core + PostgreSQL.
+        // 1) Banco: EF Core. Em produção usamos PostgreSQL; em desenvolvimento o
+        //    padrão é SQLite (arquivo local), para que o app rode sem precisar de
+        //    Docker/Postgres instalado — basta clonar o repositório e rodar.
+        //    Controlado por "Database:Provider" (valores: "Postgres" ou "Sqlite").
         var connectionString = configuration.GetConnectionString("Default")
             ?? Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
 
+        var provider = configuration.GetValue<string>("Database:Provider") ?? "Postgres";
+
         services.AddDbContext<CafeTrackerDbContext>(options =>
-            options.UseNpgsql(connectionString));
+        {
+            if (provider.Equals("Sqlite", StringComparison.OrdinalIgnoreCase))
+            {
+                options.UseSqlite(connectionString);
+            }
+            else
+            {
+                options.UseNpgsql(connectionString);
+            }
+        });
 
         // 2) Repositórios e Unit of Work (o DbContext É a unidade de trabalho).
         services.AddScoped<IStatusEventRepository, StatusEventRepository>();

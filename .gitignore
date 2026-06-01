@@ -47,3 +47,9 @@ Thumbs.db
 # ---------- Logs ----------
 *.log
 logs/
+
+# ---------- Banco SQLite de desenvolvimento ----------
+# Criado automaticamente ao rodar o backend em dev (não versionar).
+*.db
+*.db-shm
+*.db-wal

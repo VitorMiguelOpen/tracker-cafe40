@@ -7,6 +7,10 @@ API REST + serviço MQTT Client, organizado em camadas seguindo **DDD**.
 - [.NET 10 SDK](https://dotnet.microsoft.com/download)
 - Acesso a um broker MQTT (ex.: Mosquitto local ou em container)
 
+> **Banco de dados:** em **desenvolvimento** o backend usa **SQLite** (um arquivo
+> local criado automaticamente), então **não é preciso instalar Docker nem PostgreSQL**
+> para rodar e testar. Em **produção** usa-se PostgreSQL (ver seção *Configuração*).
+
 ## Estrutura sugerida (DDD)
 
 ```
@@ -20,7 +24,7 @@ backend/
     └── CafeTracker.Tests/
 ```
 
-## Como rodar
+## Como rodar (desenvolvimento — sem Docker/Postgres)
 
 ```bash
 cd backend
@@ -28,6 +32,18 @@ dotnet restore
 dotnet run --project src/CafeTracker.Api
 ```
 
+Pronto. Na primeira execução o schema é criado num arquivo SQLite local
+(`cafetracker.dev.db`, ignorado pelo Git). A API sobe em `http://localhost:5000`
+e o serviço MQTT conecta no broker para ingerir as leituras da máquina.
+
 ## Configuração
 
-Copie `.env.example` (na raiz do repo) e ajuste as credenciais do broker MQTT e a connection string do banco. **Não** versione segredos — veja `.gitignore`.
+O provider de banco é escolhido por `Database:Provider`:
+
+- **Desenvolvimento** (`appsettings.Development.json`): `Sqlite` — arquivo local, zero setup.
+- **Produção** (`appsettings.json`): `Postgres` — usa `ConnectionStrings:Default`
+  e aplica as migrações versionadas no startup. Para subir um Postgres local igual
+  ao de produção, use o `docker-compose.yml` na raiz (`docker compose up -d`).
+
+Credenciais sensíveis (broker MQTT, connection string de produção) vêm do `.env`
+da raiz — copie `.env.example` e ajuste. **Não** versione segredos (veja `.gitignore`).

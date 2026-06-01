@@ -116,34 +116,34 @@ sap.ui.define([
         },
 
         _loadStatus: function () {
-            this._get("/api/status/current").then(function (data) {
+            this._get("/api/status/current", function (data) {
                 this._model.setProperty("/status", {
                     value: data.value,
                     label: data.label,
                     state: data.state,
                     eventTimeLabel: this._dateTimeLabel(data.eventTime)
                 });
-            }.bind(this));
+            });
         },
 
         _loadActivations: function () {
-            this._get("/api/consumption/activations/today").then(function (data) {
+            this._get("/api/consumption/activations/today", function (data) {
                 this._model.setProperty("/activationsToday", data.activations);
-            }.bind(this));
+            });
         },
 
         _loadTrend: function () {
-            this._get("/api/consumption/trend?days=7").then(function (data) {
+            this._get("/api/consumption/trend?days=7", function (data) {
                 this._model.setProperty("/trend", {
                     trend: data.trend,
                     averageSecondsPerDay: data.averageSecondsPerDay,
                     averageLabel: formatter.durationLabel(data.averageSecondsPerDay)
                 });
-            }.bind(this));
+            });
         },
 
         _loadHourly: function (date) {
-            this._get("/api/consumption/hourly?date=" + date).then(function (rows) {
+            this._get("/api/consumption/hourly?date=" + date, function (rows) {
                 var mapped = rows.map(function (r) {
                     return {
                         hour: r.hour,
@@ -153,29 +153,29 @@ sap.ui.define([
                     };
                 });
                 this._model.setProperty("/hourly", mapped);
-            }.bind(this));
+            });
         },
 
         _loadDaily: function (date) {
-            this._get("/api/consumption/daily?date=" + date).then(function (data) {
+            this._get("/api/consumption/daily?date=" + date, function (data) {
                 this._model.setProperty("/daily", {
                     activations: data.activations,
                     totalSeconds: data.totalSeconds
                 });
-            }.bind(this));
+            });
         },
 
         _loadPeak: function (date) {
-            this._get("/api/consumption/peak?date=" + date).then(function (data) {
+            this._get("/api/consumption/peak?date=" + date, function (data) {
                 this._model.setProperty("/peak", {
                     hour: data.hour,
                     totalSeconds: data.totalSeconds
                 });
-            }.bind(this));
+            });
         },
 
         _loadWeekly: function (date) {
-            this._get("/api/consumption/weekly?date=" + date).then(function (rows) {
+            this._get("/api/consumption/weekly?date=" + date, function (rows) {
                 var mapped = rows.map(function (r) {
                     var d = this._parseDate(r.date);
                     return {
@@ -185,13 +185,18 @@ sap.ui.define([
                     };
                 }.bind(this));
                 this._model.setProperty("/weekly", mapped);
-            }.bind(this));
+            });
         },
 
         // ===================== Auxiliares =====================
 
-        /** GET na API; devolve uma Promise com o JSON. Mostra um toast em caso de erro. */
-        _get: function (path) {
+        /**
+         * GET na API. Em caso de sucesso, chama onData(json) com o "this" do
+         * controller. Em caso de erro, trata num único ponto (log + toast) e
+         * NÃO propaga a rejeição (evita "Uncaught (in promise)" e impede que o
+         * handler de sucesso rode sem dados).
+         */
+        _get: function (path, onData) {
             return fetch(Config.backendUrl + path)
                 .then(function (res) {
                     if (!res.ok) {
@@ -199,11 +204,11 @@ sap.ui.define([
                     }
                     return res.json();
                 })
+                .then(onData.bind(this))
                 .catch(function (err) {
                     Log.error("Falha ao chamar " + path + ": " + err);
                     MessageToast.show("Não foi possível carregar dados do backend.");
-                    return Promise.reject(err);
-                });
+                }.bind(this));
         },
 
         /** Aplica estilo aos VizFrames (esconde legenda, dá título ao eixo). */

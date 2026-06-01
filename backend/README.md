@@ -26,15 +26,24 @@ backend/
 
 ## Como rodar (desenvolvimento — sem Docker/Postgres)
 
+**Pela linha de comando:**
+
 ```bash
 cd backend
 dotnet restore
 dotnet run --project src/CafeTracker.Api
 ```
 
+**Pelo Visual Studio:** o repositório não tem `.sln`; abra o projeto diretamente em
+**File → Open → Project/Solution** e selecione
+`backend/src/CafeTracker.Api/CafeTracker.Api.csproj`. Escolha o perfil **`http`**
+(porta 5000) e tecle **F5**.
+
 Pronto. Na primeira execução o schema é criado num arquivo SQLite local
 (`cafetracker.dev.db`, ignorado pelo Git). A API sobe em `http://localhost:5000`
 e o serviço MQTT conecta no broker para ingerir as leituras da máquina.
+
+> O dashboard (frontend) sobe em `http://localhost:8081` — suba o backend **antes**.
 
 ## Configuração
 

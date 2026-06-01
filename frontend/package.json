@@ -4,7 +4,7 @@
   "description": "Dashboard SAP UI5 do Café Tracker (consome a API .NET + tempo real via SignalR)",
   "private": true,
   "scripts": {
-    "start": "ui5 serve --open index.html",
+    "start": "ui5 serve --port 8081 --open index.html",
     "build": "ui5 build --clean-dest"
   },
   "devDependencies": {

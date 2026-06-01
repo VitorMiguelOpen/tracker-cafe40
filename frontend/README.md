@@ -9,20 +9,25 @@ Dashboard web responsivo que consome a API .NET e recebe atualizações em tempo
 
 ## Como rodar
 
-> O **backend precisa estar rodando** em `http://localhost:5000` (ver `backend/`),
-> com o Postgres no ar (`docker compose up -d` na raiz).
+> O **backend precisa estar rodando** em `http://localhost:5000` (ver `backend/`).
+> Em desenvolvimento o backend usa SQLite, então **não é preciso Docker/Postgres**.
 
 ```bash
 cd frontend
-npm install      # baixa o @ui5/cli e o framework OpenUI5
-npm start        # sobe em http://localhost:8080 (ui5 serve)
+npm install      # baixa o @ui5/cli (o SAP UI5 em si vem da CDN)
+npm start        # sobe em http://localhost:8081 (ui5 serve)
 ```
+
+O SAP UI5 é carregado da **CDN oficial** (`ui5.sap.com`) — ver `index.html`. Isso é
+necessário porque os gráficos (`sap.viz`) não são publicados no OpenUI5 via npm.
 
 ## Configuração
 
 - **Endereço do backend:** `webapp/Config.js` (padrão `http://localhost:5000`).
-- O backend já libera CORS para `http://localhost:8080` e `http://localhost:5173`
-  (ver `Cors:Origins` no `appsettings.json`). Se mudar a porta do front, ajuste lá.
+- **Porta do front:** `8081` (definida em `package.json`, script `start`). O backend
+  libera CORS para `http://localhost:8081`, `http://localhost:8080` e
+  `http://localhost:5173` (ver `Cors:Origins` no `appsettings.json`). Se mudar a porta
+  do front, adicione-a também no CORS.
 
 ## O que entra aqui
 

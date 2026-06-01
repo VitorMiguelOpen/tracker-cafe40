@@ -55,19 +55,27 @@ tracker-cafe40/
 
 ## Como executar
 
-> Instruções detalhadas em [`backend/README.md`](backend/README.md) e [`frontend/README.md`](frontend/README.md).
+> Instruções detalhadas (e passo a passo no Visual Studio / VS Code) em
+> [`backend/README.md`](backend/README.md) e [`frontend/README.md`](frontend/README.md).
+
+Em **desenvolvimento não é preciso instalar Docker nem PostgreSQL**: o backend usa
+um banco **SQLite** local, criado automaticamente no primeiro start. Suba o backend
+**antes** do frontend.
 
 ```bash
-# Backend (.NET 10)
+# 1) Backend (.NET 10) — API em http://localhost:5000
 cd backend
 dotnet restore
-dotnet run
+dotnet run --project src/CafeTracker.Api
 
-# Frontend (SAP UI5)
+# 2) Frontend (SAP UI5) — dashboard em http://localhost:8081
 cd frontend
 npm install
 npm start
 ```
+
+Em **produção** o backend usa **PostgreSQL** (ver `backend/README.md`); o
+`docker-compose.yml` na raiz sobe um Postgres local idêntico, se você quiser usá-lo.
 
 ## Documentação
 

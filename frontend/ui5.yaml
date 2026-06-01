@@ -1,14 +1,11 @@
+# Projeto de aplicação SAP UI5.
+#
+# Importante: NÃO declaramos um bloco "framework" aqui de propósito.
+# A aplicação carrega o SAP UI5 diretamente da CDN oficial do SAPUI5
+# (ver webapp/index.html), porque a biblioteca de gráficos sap.viz (VizFrame)
+# não é publicada no OpenUI5 — só existe no SAPUI5. Assim o `ui5 serve` apenas
+# serve os arquivos da aplicação, e o framework (incl. sap.viz) vem da CDN.
 specVersion: "3.0"
 metadata:
   name: cafetracker-frontend
 type: application
-framework:
-  name: OpenUI5
-  version: "1.120.13"
-  libraries:
-    - name: sap.m
-    - name: sap.ui.core
-    - name: sap.ui.layout
-    - name: sap.f
-    - name: sap.viz
-    - name: themelib_sap_horizon

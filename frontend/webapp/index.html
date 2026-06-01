@@ -8,11 +8,17 @@
     <!-- Cliente SignalR (tempo real). Carregado da CDN; expõe window.signalR. -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.7/signalr.min.js"></script>
 
-    <!-- Bootstrap do OpenUI5 (servido localmente pelo UI5 Tooling em /resources). -->
+    <!--
+      Bootstrap do SAP UI5 a partir da CDN oficial (SAPUI5).
+      Usamos a CDN do SAPUI5 (e não o OpenUI5 local) porque a biblioteca de
+      gráficos sap.viz (VizFrame) NÃO é publicada no OpenUI5 — só existe no SAPUI5.
+      Versão 1.136.0 (LTS), que hospeda todas as libs usadas, inclusive sap.viz.
+    -->
     <script
         id="sap-ui-bootstrap"
-        src="resources/sap-ui-core.js"
+        src="https://ui5.sap.com/1.136.0/resources/sap-ui-core.js"
         data-sap-ui-theme="sap_horizon"
+        data-sap-ui-libs="sap.ui.core,sap.m,sap.ui.layout,sap.f,sap.viz"
         data-sap-ui-resource-roots='{"cafetracker": "./"}'
         data-sap-ui-on-init="module:sap/ui/core/ComponentSupport"
         data-sap-ui-compat-version="edge"

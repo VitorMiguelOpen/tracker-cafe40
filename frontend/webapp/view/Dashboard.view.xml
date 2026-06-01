@@ -96,16 +96,16 @@
                         <viz:dataset>
                             <vizData:FlattenedDataset data="{/hourly}">
                                 <vizData:dimensions>
-                                    <vizData:DimensionDefinition name="{i18n>axisHour}" value="{hourLabel}"/>
+                                    <vizData:DimensionDefinition name="Hora" value="{hourLabel}"/>
                                 </vizData:dimensions>
                                 <vizData:measures>
-                                    <vizData:MeasureDefinition name="{i18n>axisActivations}" value="{activations}"/>
+                                    <vizData:MeasureDefinition name="Acionamentos" value="{activations}"/>
                                 </vizData:measures>
                             </vizData:FlattenedDataset>
                         </viz:dataset>
                         <viz:feeds>
-                            <vizFeeds:FeedItem uid="valueAxis" type="Measure" values="{i18n>axisActivations}"/>
-                            <vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="{i18n>axisHour}"/>
+                            <vizFeeds:FeedItem uid="valueAxis" type="Measure" values="Acionamentos"/>
+                            <vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="Hora"/>
                         </viz:feeds>
                     </viz:VizFrame>
                 </Panel>
@@ -145,16 +145,16 @@
                         <viz:dataset>
                             <vizData:FlattenedDataset data="{/weekly}">
                                 <vizData:dimensions>
-                                    <vizData:DimensionDefinition name="{i18n>axisDay}" value="{dayLabel}"/>
+                                    <vizData:DimensionDefinition name="Dia" value="{dayLabel}"/>
                                 </vizData:dimensions>
                                 <vizData:measures>
-                                    <vizData:MeasureDefinition name="{i18n>axisMinutes}" value="{minutes}"/>
+                                    <vizData:MeasureDefinition name="Minutos de uso" value="{minutes}"/>
                                 </vizData:measures>
                             </vizData:FlattenedDataset>
                         </viz:dataset>
                         <viz:feeds>
-                            <vizFeeds:FeedItem uid="valueAxis" type="Measure" values="{i18n>axisMinutes}"/>
-                            <vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="{i18n>axisDay}"/>
+                            <vizFeeds:FeedItem uid="valueAxis" type="Measure" values="Minutos de uso"/>
+                            <vizFeeds:FeedItem uid="categoryAxis" type="Dimension" values="Dia"/>
                         </viz:feeds>
                     </viz:VizFrame>
                 </Panel>

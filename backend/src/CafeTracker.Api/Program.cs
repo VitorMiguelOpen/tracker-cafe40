@@ -64,9 +64,19 @@ await using (var scope = app.Services.CreateAsyncScope())
 if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 
+// Serve o dashboard (frontend SAP UI5) já embutido em wwwroot, quando presente.
+// Assim a aplicação inteira (front + API) sobe num único endereço/porta — basta
+// abrir no Visual Studio e dar F5. O conteúdo de wwwroot é gerado no build a partir
+// do frontend (ver o target BuildFrontend no .csproj); não é versionado.
+app.UseDefaultFiles(); // "/" → index.html
+app.UseStaticFiles();
+
 app.UseCors(CorsPolicy);
 app.MapControllers();
 app.MapHub<StatusHub>("/hubs/status"); // dashboard conecta aqui
+
+// Qualquer rota não-API cai no index.html (entrada única do app).
+app.MapFallbackToFile("index.html");
 
 app.Run();
 

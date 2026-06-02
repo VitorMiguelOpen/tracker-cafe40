@@ -15,4 +15,32 @@
     <ProjectReference Include="..\CafeTracker.Infrastructure\CafeTracker.Infrastructure.csproj" />
   </ItemGroup>
 
+  <!-- ===================================================================== -->
+  <!-- Build do frontend SAP UI5 embutido na API.                            -->
+  <!-- Ao compilar (F5 no Visual Studio), gera o dashboard e o copia para     -->
+  <!-- wwwroot, de modo que a aplicação inteira (front + API) suba num único  -->
+  <!-- endereço (http://localhost:5000). Roda só quando wwwroot está vazio    -->
+  <!-- (1ª vez); para reconstruir, apague a pasta wwwroot. Pule com           -->
+  <!-- /p:SkipFrontend=true (ex.: build só do backend).                       -->
+  <!-- ===================================================================== -->
+  <PropertyGroup>
+    <FrontendDir>$(MSBuildProjectDirectory)\..\..\..\frontend</FrontendDir>
+    <WwwrootDir>$(MSBuildProjectDirectory)\wwwroot</WwwrootDir>
+  </PropertyGroup>
+
+  <Target Name="BuildFrontend" BeforeTargets="Build"
+          Condition="'$(SkipFrontend)' != 'true' And !Exists('$(WwwrootDir)\index.html')">
+    <Message Importance="high" Text="==> Construindo o frontend SAP UI5 (na 1a vez baixa o UI5; pode levar alguns minutos)..." />
+    <Exec Command="npm install" WorkingDirectory="$(FrontendDir)"
+          Condition="!Exists('$(FrontendDir)\node_modules')" />
+    <Exec Command="npm run build" WorkingDirectory="$(FrontendDir)" />
+    <ItemGroup>
+      <_FrontendDist Include="$(FrontendDir)\dist\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(_FrontendDist)"
+          DestinationFiles="@(_FrontendDist->'$(WwwrootDir)\%(RecursiveDir)%(Filename)%(Extension)')"
+          SkipUnchangedFiles="true" />
+    <Message Importance="high" Text="==> Frontend gerado e copiado para wwwroot." />
+  </Target>
+
 </Project>

@@ -19,3 +19,10 @@ framework:
     - name: sap.ui.layout
     - name: sap.viz
     - name: themelib_sap_horizon
+builder:
+  # O cliente SignalR (lib/signalr.min.js) é carregado via <script> no index.html,
+  # não como módulo UI5. Excluímos do Component-preload para o analisador não tropeçar
+  # no JS moderno do bundle (ele continua sendo copiado normalmente para o dist).
+  componentPreload:
+    excludes:
+      - "cafetracker/lib/"

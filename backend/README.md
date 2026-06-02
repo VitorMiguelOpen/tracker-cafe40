@@ -26,24 +26,28 @@ backend/
 
 ## Como rodar (desenvolvimento — sem Docker/Postgres)
 
+**Pelo Visual Studio (recomendado — sobe front + API juntos):**
+
+1. Abra `backend/CafeTracker.slnx`.
+2. Tecle **F5** (perfil `http`, porta 5000).
+3. Abre em `http://localhost:5000` com o **dashboard completo**.
+
+A API **serve o frontend embutido** (pasta `wwwroot`, gerada no build). Na **primeira**
+compilação, o build do .NET também constrói o frontend e baixa o SAP UI5 (alguns
+minutos, só na 1ª vez; precisa de **Node.js** instalado e internet). Para reconstruir
+o front, apague `src/CafeTracker.Api/wwwroot`. Para compilar só o backend, use
+`dotnet build -p:SkipFrontend=true`.
+
 **Pela linha de comando:**
 
 ```bash
 cd backend
 dotnet restore
-dotnet run --project src/CafeTracker.Api
+dotnet run --project src/CafeTracker.Api   # build do front embutido + API em :5000
 ```
 
-**Pelo Visual Studio:** o repositório não tem `.sln`; abra o projeto diretamente em
-**File → Open → Project/Solution** e selecione
-`backend/src/CafeTracker.Api/CafeTracker.Api.csproj`. Escolha o perfil **`http`**
-(porta 5000) e tecle **F5**.
-
-Pronto. Na primeira execução o schema é criado num arquivo SQLite local
-(`cafetracker.dev.db`, ignorado pelo Git). A API sobe em `http://localhost:5000`
-e o serviço MQTT conecta no broker para ingerir as leituras da máquina.
-
-> O dashboard (frontend) sobe em `http://localhost:8081` — suba o backend **antes**.
+Na primeira execução o schema é criado num arquivo SQLite local
+(`cafetracker.dev.db`, ignorado pelo Git) e o serviço MQTT conecta no broker.
 
 ## Configuração
 

@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "start": "ui5 serve --port 8081 --open index.html",
-    "build": "ui5 build --clean-dest"
+    "build": "ui5 build --all --clean-dest"
   },
   "devDependencies": {
     "@ui5/cli": "^3.11.0"

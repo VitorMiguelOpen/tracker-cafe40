@@ -53,3 +53,7 @@ logs/
 *.db
 *.db-shm
 *.db-wal
+
+# ---------- Frontend embutido na API (gerado no build) ----------
+# A pasta wwwroot da API é preenchida pelo build do frontend (dist do UI5).
+backend/src/CafeTracker.Api/wwwroot/

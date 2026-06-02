@@ -55,20 +55,33 @@ tracker-cafe40/
 
 ## Como executar
 
-> Instruções detalhadas (e passo a passo no Visual Studio / VS Code) em
-> [`backend/README.md`](backend/README.md) e [`frontend/README.md`](frontend/README.md).
+> Instruções detalhadas em [`backend/README.md`](backend/README.md) e
+> [`frontend/README.md`](frontend/README.md).
 
 Em **desenvolvimento não é preciso instalar Docker nem PostgreSQL**: o backend usa
-um banco **SQLite** local, criado automaticamente no primeiro start. Suba o backend
-**antes** do frontend.
+um banco **SQLite** local, criado automaticamente no primeiro start.
+
+### Opção 1 — Tudo junto (recomendado): abrir e dar F5
+
+A API **serve o dashboard embutido**, então a aplicação inteira (frontend + API)
+sobe num único endereço. Basta o **Visual Studio**:
+
+1. Abra `backend/CafeTracker.slnx`.
+2. Tecle **F5**.
+3. Abre em **http://localhost:5000** com o dashboard completo.
+
+Na **primeira** compilação, o Visual Studio também constrói o frontend e baixa o
+SAP UI5 (alguns minutos, só na 1ª vez; precisa de internet). Depois é instantâneo.
+Requer **Node.js** instalado (o build do frontend é disparado pelo build do .NET).
+
+### Opção 2 — Frontend em separado (para desenvolver o front com live-reload)
 
 ```bash
-# 1) Backend (.NET 10) — API em http://localhost:5000
+# Backend (.NET 10) — API em http://localhost:5000
 cd backend
-dotnet restore
 dotnet run --project src/CafeTracker.Api
 
-# 2) Frontend (SAP UI5) — dashboard em http://localhost:8081
+# Frontend (SAP UI5) — dashboard em http://localhost:8081
 cd frontend
 npm install
 npm start

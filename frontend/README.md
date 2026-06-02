@@ -14,12 +14,19 @@ Dashboard web responsivo que consome a API .NET e recebe atualizações em tempo
 
 ```bash
 cd frontend
-npm install      # baixa o @ui5/cli (o SAP UI5 em si vem da CDN)
+npm install      # baixa o @ui5/cli
 npm start        # sobe em http://localhost:8081 (ui5 serve)
 ```
 
-O SAP UI5 é carregado da **CDN oficial** (`ui5.sap.com`) — ver `index.html`. Isso é
-necessário porque os gráficos (`sap.viz`) não são publicados no OpenUI5 via npm.
+> **Primeira execução:** ao rodar `npm start` pela primeira vez, o UI5 Tooling baixa
+> o SAPUI5 (libs declaradas no `ui5.yaml`, incl. `sap.viz`) para um cache local em
+> `~/.ui5`. Isso pode levar 1–2 minutos e exige internet **só nessa primeira vez**.
+
+O SAP UI5 é servido **localmente** (em `/resources`, a partir do cache do UI5 Tooling)
+— ver `index.html` (bootstrap em `resources/sap-ui-core.js`). Não há dependência de
+CDN em runtime, o que faz o app funcionar em redes corporativas/offline. Usamos o
+framework **SAPUI5** (não OpenUI5) porque os gráficos (`sap.viz`) só existem no SAPUI5.
+O cliente SignalR também é servido localmente (`webapp/lib/signalr.min.js`).
 
 ## Configuração
 

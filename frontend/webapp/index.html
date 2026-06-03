@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Café Tracker — SAACE</title>
 
+    <!-- Garante a cadeia de altura para o app ocupar a tela inteira (a Page do
+         sap.m usa height:100% e precisa que html/body/container também tenham). -->
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; }
+        #appHost { height: 100%; }
+    </style>
+
     <!-- Cliente SignalR (tempo real), servido LOCALMENTE (sem CDN). Expõe window.signalR. -->
     <script src="lib/signalr.min.js"></script>
 
@@ -29,9 +36,11 @@
 </head>
 <body class="sapUiBody" id="content">
     <div
+        id="appHost"
         data-sap-ui-component
         data-name="cafetracker"
         data-id="container"
+        data-height="100%"
         data-settings='{"id": "cafetracker"}'>
     </div>
 </body>

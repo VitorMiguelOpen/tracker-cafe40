@@ -28,6 +28,9 @@ backend/
 
 **Pelo Visual Studio (recomendado — sobe front + API juntos):**
 
+> Requer **Visual Studio 2026** ou mais recente — o **VS 2022 não suporta .NET 10**.
+> Sem ele, use a opção por linha de comando abaixo (`dotnet run`).
+
 1. Abra `backend/CafeTracker.slnx`.
 2. Tecle **F5** (perfil `http`, porta 5000).
 3. Abre em `http://localhost:5000` com o **dashboard completo**.

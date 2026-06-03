@@ -49,7 +49,7 @@ O cliente SignalR também é servido localmente (`webapp/lib/signalr.min.js`).
 
 ```
 webapp/
-  index.html              bootstrap do OpenUI5 + cliente SignalR (CDN)
+  index.html              bootstrap do SAP UI5 (local) + cliente SignalR (local)
   Component.js            componente raiz
   manifest.json           descritor do app (libs, rootView, modelos)
   Config.js               endereço do backend

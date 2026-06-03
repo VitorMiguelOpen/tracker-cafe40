@@ -70,6 +70,11 @@ sobe num único endereço. Basta o **Visual Studio**:
 2. Tecle **F5**.
 3. Abre em **http://localhost:5000** com o dashboard completo.
 
+> **Versão do Visual Studio:** o projeto usa **.NET 10**, que **não é suportado pelo
+> Visual Studio 2022** — abrir/buildar pela IDE exige o **Visual Studio 2026** (ou
+> mais recente). Se você só tem o 2022, use a **Opção 2** (linha de comando
+> `dotnet run`), que funciona com qualquer versão.
+
 Na **primeira** compilação, o Visual Studio também constrói o frontend e baixa o
 SAP UI5 (alguns minutos, só na 1ª vez; precisa de internet). Depois é instantâneo.
 Requer **Node.js** instalado (o build do frontend é disparado pelo build do .NET).

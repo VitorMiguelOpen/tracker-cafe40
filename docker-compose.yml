@@ -1,29 +1,52 @@
-# Banco de dados local para desenvolvimento do Café Tracker.
-# Sobe um PostgreSQL com as MESMAS credenciais do appsettings.json (perfil dev):
-#   Host=localhost;Port=5432;Database=cafetracker;Username=postgres;Password=postgres
+# Café Tracker — stack completa (Caminho A): backend (que serve o dashboard) + PostgreSQL.
+# Todos acessam pelo navegador; os dados ficam centralizados no Postgres.
 #
 # Uso:
-#   docker compose up -d        # sobe o banco em segundo plano
-#   docker compose down         # para o banco (mantém os dados no volume)
-#   docker compose down -v      # para e APAGA os dados
+#   docker compose up -d --build     # builda e sobe tudo
+#   abrir http://localhost:5000      # (no servidor: http://<host>:5000)
+#   docker compose logs -f app       # acompanhar o backend (MQTT etc.)
+#   docker compose down              # para (mantém os dados no volume)
+#   docker compose down -v           # para e APAGA os dados
+#
+# Credenciais sensíveis (MQTT, senha do Postgres) vêm do arquivo .env da raiz
+# (copie de .env.example). O .env NÃO é versionado.
 services:
-  postgres:
+  db:
     image: postgres:16
-    container_name: cafetracker-postgres
     restart: unless-stopped
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: cafetracker
-    ports:
-      - "5432:5432"
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-cafetracker}
     volumes:
       - cafetracker-pgdata:/var/lib/postgresql/data
+    # Exposto só no loopback do host (permite inspecionar com DBeaver/psql localmente,
+    # sem abrir a porta para a rede). Para deploy mínimo, pode remover esta seção.
+    ports:
+      - "127.0.0.1:5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d cafetracker"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres} -d ${POSTGRES_DB:-cafetracker}"]
       interval: 5s
       timeout: 5s
       retries: 10
+
+  app:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # Conexão com o Postgres do compose (host = nome do serviço "db").
+      ConnectionStrings__Default: "Host=db;Port=5432;Database=${POSTGRES_DB:-cafetracker};Username=${POSTGRES_USER:-postgres};Password=${POSTGRES_PASSWORD:-postgres}"
+      # Broker MQTT (credenciais vêm do .env).
+      MQTT_HOST: ${MQTT_HOST:-opensolutionsbr.ddns.net}
+      MQTT_PORT: ${MQTT_PORT:-1883}
+      MQTT_TOPIC: ${MQTT_TOPIC:-/IoT/SAACE/DADOSAPONTAMENTO}
+      MQTT_USERNAME: ${MQTT_USERNAME:-}
+      MQTT_PASSWORD: ${MQTT_PASSWORD:-}
+    ports:
+      - "5000:8080"   # http://localhost:5000  ->  porta 8080 do container
 
 volumes:
   cafetracker-pgdata:

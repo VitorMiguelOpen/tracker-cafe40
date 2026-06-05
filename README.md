@@ -92,8 +92,33 @@ npm install
 npm start
 ```
 
-Em **produção** o backend usa **PostgreSQL** (ver `backend/README.md`); o
-`docker-compose.yml` na raiz sobe um Postgres local idêntico, se você quiser usá-lo.
+### Opção 3 — Docker (stack completa: ambiente compartilhado / backup)
+
+Sobe a aplicação inteira (backend + dashboard + **PostgreSQL** central) com **um
+comando**, num endereço que qualquer pessoa acessa pelo navegador. Os dados ficam
+**centralizados** no Postgres — todos veem o mesmo dado ao vivo. Só precisa de
+**Docker** (sem instalar .NET nem Node).
+
+```bash
+cp .env.example .env            # preencha MQTT_USERNAME/PASSWORD e POSTGRES_PASSWORD
+docker compose up -d --build    # 1ª vez baixa o SAP UI5 e as imagens
+# abra http://localhost:5000   (no servidor: http://<host>:5000)
+```
+
+Passo a passo completo (inclui deploy num servidor): [`docs/DEPLOY.md`](docs/DEPLOY.md).
+
+### Dev × Docker — qual usar?
+
+| | Dev (dia a dia) | Docker (compartilhado / backup) |
+| --- | --- | --- |
+| Como subir | F5 / `dotnet run` | `docker compose up -d --build` |
+| Banco | SQLite local | PostgreSQL central (volume) |
+| Dados | só na sua máquina | compartilhados entre todos |
+| Endereço | `http://localhost:5000` | `http://localhost:5000` (ou `<host>:5000`) |
+
+Os dois usam a porta 5000 por padrão, então **rode um de cada vez**. Para rodar o
+Docker **junto** com o backend de dev na mesma máquina, defina `APP_PORT=5001` no
+`.env` (o Docker passa a servir em `http://localhost:5001`, sem conflito).
 
 ## Documentação
 
@@ -104,6 +129,7 @@ Em **produção** o backend usa **PostgreSQL** (ver `backend/README.md`); o
 - [MQTT — conceitos e conexão](docs/mqtt.md)
 - [Dados do sensor via MQTT (estrutura real)](docs/dados-mqtt.md)
 - [Plano de ingestão MQTT (backend)](docs/ingestao-mqtt.md)
+- [Deploy com Docker (ambiente compartilhado)](docs/DEPLOY.md)
 
 ## Equipe
 

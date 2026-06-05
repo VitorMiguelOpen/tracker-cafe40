@@ -45,8 +45,15 @@ services:
       MQTT_TOPIC: ${MQTT_TOPIC:-/IoT/SAACE/DADOSAPONTAMENTO}
       MQTT_USERNAME: ${MQTT_USERNAME:-}
       MQTT_PASSWORD: ${MQTT_PASSWORD:-}
+      # Client id ÚNICO por instância. Se for rodar este backup ao mesmo tempo que o
+      # backend de dev (ou o servidor), use um id diferente aqui (ex.: cafe-tracker-local)
+      # para os dois não brigarem pela conexão no broker.
+      MQTT_CLIENT_ID: ${MQTT_CLIENT_ID:-cafe-tracker-docker}
     ports:
-      - "5000:8080"   # http://localhost:5000  ->  porta 8080 do container
+      # Porta do host configurável via APP_PORT (padrão 5000). No servidor deixe o
+      # padrão; na sua máquina, defina APP_PORT=5001 no .env para o backup Docker não
+      # brigar com o backend de desenvolvimento (que usa a 5000). Ex.: localhost:5001.
+      - "${APP_PORT:-5000}:8080"
 
 volumes:
   cafetracker-pgdata:

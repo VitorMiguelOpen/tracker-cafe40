@@ -18,7 +18,9 @@ var envOverrides = new Dictionary<string, string?>();
 AddIfPresent(envOverrides, "Mqtt:Username", "MQTT_USERNAME");
 AddIfPresent(envOverrides, "Mqtt:Password", "MQTT_PASSWORD");
 AddIfPresent(envOverrides, "Mqtt:Host", "MQTT_HOST");
+AddIfPresent(envOverrides, "Mqtt:Port", "MQTT_PORT");
 AddIfPresent(envOverrides, "Mqtt:Topic", "MQTT_TOPIC");
+AddIfPresent(envOverrides, "Mqtt:ClientId", "MQTT_CLIENT_ID");
 AddIfPresent(envOverrides, "ConnectionStrings:Default", "DB_CONNECTION_STRING");
 if (envOverrides.Count > 0)
     builder.Configuration.AddInMemoryCollection(envOverrides);

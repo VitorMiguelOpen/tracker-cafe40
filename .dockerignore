@@ -1,0 +1,25 @@
+# Não enviar para o contexto/build do Docker (mais rápido e SEM segredos na imagem).
+.git
+.gitignore
+.env
+.env.*
+!.env.example
+
+# Artefatos gerados (são reconstruídos no build)
+**/bin
+**/obj
+frontend/node_modules
+frontend/dist
+backend/src/CafeTracker.Api/wwwroot
+**/.ui5
+
+# Bancos locais e logs
+*.db
+*.db-shm
+*.db-wal
+*.log
+
+# Docs/IDE
+docs/*.docx
+.idea
+.vs

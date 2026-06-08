@@ -57,9 +57,25 @@ Na primeira execução o schema é criado num arquivo SQLite local
 O provider de banco é escolhido por `Database:Provider`:
 
 - **Desenvolvimento** (`appsettings.Development.json`): `Sqlite` — arquivo local, zero setup.
-- **Produção** (`appsettings.json`): `Postgres` — usa `ConnectionStrings:Default`
-  e aplica as migrações versionadas no startup. Para subir um Postgres local igual
-  ao de produção, use o `docker-compose.yml` na raiz (`docker compose up -d`).
+- **Produção / ambiente compartilhado** (`appsettings.json`): `Postgres` — usa
+  `ConnectionStrings:Default` e aplica as migrações versionadas no startup. O
+  `docker-compose.yml` na raiz sobe a **stack completa** (backend já servindo o
+  dashboard + PostgreSQL central): `docker compose up -d --build`. Passo a passo
+  (inclui deploy num servidor) em [`../docs/DEPLOY.md`](../docs/DEPLOY.md).
 
-Credenciais sensíveis (broker MQTT, connection string de produção) vêm do `.env`
-da raiz — copie `.env.example` e ajuste. **Não** versione segredos (veja `.gitignore`).
+Credenciais sensíveis (broker MQTT, senha do Postgres) vêm do `.env` da raiz — copie
+`.env.example` e ajuste. **Não** versione segredos (veja `.gitignore`).
+
+### Variáveis de ambiente lidas
+
+O `Program.cs` sobrepõe a configuração com estas variáveis quando presentes (úteis no
+Docker/servidor; ficam no `.env`):
+
+| Variável | Configuração | Observação |
+| --- | --- | --- |
+| `MQTT_HOST` / `MQTT_PORT` | `Mqtt:Host` / `Mqtt:Port` | broker |
+| `MQTT_USERNAME` / `MQTT_PASSWORD` | `Mqtt:Username` / `Mqtt:Password` | credenciais do broker |
+| `MQTT_TOPIC` | `Mqtt:Topic` | tópico assinado |
+| `MQTT_CLIENT_ID` | `Mqtt:ClientId` | **único por instância** — se dois backends usarem o mesmo id no mesmo broker, um derruba o outro |
+| `ConnectionStrings__Default` | `ConnectionStrings:Default` | conexão do Postgres (lida nativamente pelo .NET) |
+| `APP_PORT` | porta do host no Docker | só no `docker-compose.yml`; padrão 5000, use 5001 p/ não conflitar com o dev |

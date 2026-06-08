@@ -30,11 +30,18 @@ O cliente SignalR também é servido localmente (`webapp/lib/signalr.min.js`).
 
 ## Configuração
 
-- **Endereço do backend:** `webapp/Config.js` (padrão `http://localhost:5000`).
-- **Porta do front:** `8081` (definida em `package.json`, script `start`). O backend
-  libera CORS para `http://localhost:8081`, `http://localhost:8080` e
-  `http://localhost:5173` (ver `Cors:Origins` no `appsettings.json`). Se mudar a porta
-  do front, adicione-a também no CORS.
+- **Endereço do backend:** `webapp/Config.js`. Por padrão usa a **mesma origem** da
+  página (`window.location.origin`) — então, quando o backend serve o próprio
+  dashboard (via F5/`dotnet run` ou Docker), funciona em `http://localhost:5000`,
+  `http://localhost:5001` (Docker com `APP_PORT=5001`) ou `http://<host>:<porta>` num
+  servidor, **sem precisar editar nada**. A única exceção é o modo `ui5 serve`
+  (porta `8081`), em que o front roda separado e o `Config.js` aponta para a API em
+  `http://localhost:5000`.
+- **Porta do front (`ui5 serve`):** `8081` (definida em `package.json`, script
+  `start`). O backend libera CORS para `http://localhost:8081`, `http://localhost:8080`
+  e `http://localhost:5173` (ver `Cors:Origins` no `appsettings.json`). Se mudar a
+  porta do front, adicione-a também no CORS. _(Quando o backend serve o dashboard na
+  mesma origem, não há CORS envolvido.)_
 
 ## O que entra aqui
 

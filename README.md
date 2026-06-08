@@ -4,6 +4,11 @@
 
 Projeto desenvolvido no hackathon **HACK the OPEN — Desafio Café Tracker** (OPEN Solutions · SAP Partner).
 
+> **Status — v1.0.0 (primeira versão de produção).** Backend + dashboard + PostgreSQL
+> implantados via **Docker numa VM na nuvem**, **acessíveis pelo navegador** por qualquer
+> máquina e coletando a máquina **SAACE 24/7**. Passo a passo do deploy em
+> [`docs/DEPLOY.md`](docs/DEPLOY.md); histórico de versões em [`CHANGELOG.md`](CHANGELOG.md).
+
 ---
 
 ## Visão geral
@@ -37,7 +42,7 @@ O Café Tracker transforma esse dado bruto em informação útil: um dashboard m
 - Atualização do dashboard em até 3 segundos após o evento MQTT
 
 **Nice to have**
-- Layout responsivo (celular, tablet, TV, monitor)
+- ✅ Layout responsivo (desktop e celular) — *entregue na v1.0.0*
 - Alertas e notificações de consumo
 - Estimativa de consumo de energia
 - Previsão de pico (modelo preditivo)

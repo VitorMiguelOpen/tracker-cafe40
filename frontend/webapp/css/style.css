@@ -21,3 +21,29 @@
 .cardGap {
     margin: 0.5rem;
 }
+
+/* ===== Responsivo (celular / telas estreitas) =====
+   Em telas pequenas os cartões de largura fixa (18rem/14rem...) deixavam uma
+   faixa vazia ao lado. Aqui eles passam a ocupar a largura toda e empilhar,
+   que é o padrão esperado no celular. */
+@media (max-width: 600px) {
+    /* O UI5 envolve cada cartão num wrapper flex (.sapMFlexItem) com flex:0 1 auto,
+       que fica do tamanho do conteúdo. Forçamos esse wrapper a ocupar a linha toda
+       nas grades de KPIs (kpiRow) e do consumo diário (dailyRow). */
+    .kpiRow > .sapMFlexItem,
+    .dailyRow > .sapMFlexItem {
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
+    }
+
+    /* E o cartão dentro do wrapper preenche a largura. */
+    .cardGap {
+        width: 100% !important;
+        box-sizing: border-box;
+        margin: 0.4rem 0;
+    }
+
+    /* Fontes um pouco menores para caber bem no celular. */
+    .statusBig { font-size: 1.85rem; line-height: 2.1rem; }
+    .kpiValue  { font-size: 1.6rem;  line-height: 1.9rem; }
+}

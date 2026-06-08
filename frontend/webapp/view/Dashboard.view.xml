@@ -22,7 +22,7 @@
             <VBox class="sapUiContentPadding">
 
                 <!-- ================= KPIs / indicadores ================= -->
-                <FlexBox wrap="Wrap" alignItems="Stretch">
+                <FlexBox wrap="Wrap" alignItems="Stretch" class="kpiRow">
 
                     <!-- US-02: status atual em tempo real -->
                     <Panel headerText="{i18n>statusCardTitle}" class="cardGap" width="18rem">
@@ -126,7 +126,7 @@
                     </headerToolbar>
 
                     <!-- Visão diária -->
-                    <FlexBox visible="{= ${/view} === 'Diario' }" wrap="Wrap" class="sapUiSmallMargin">
+                    <FlexBox visible="{= ${/view} === 'Diario' }" wrap="Wrap" class="sapUiSmallMargin dailyRow">
                         <VBox class="cardGap" width="14rem" alignItems="Center">
                             <Text class="kpiCaption" text="{i18n>activationsCardTitle}"/>
                             <Text class="kpiValue" text="{/daily/activations}"/>
